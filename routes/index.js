@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
+const keys = require('../config/keys');
 const { ensureAuthenticated } = require('../config/auth');
+const Bill = require('../models/Bill');
 
 // Welcome Page
 router.get('/', (req, res) => res.render('welcome'));
@@ -11,5 +15,14 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
     user: req.user
   })
 );
+
+router.get('/incomepage', function(req, res) {
+  Bill.find({}, function(err, docs) {
+      if (!err){
+          console.log(docs);
+          res.render('incomepage', {incomelist : docs});
+      } else {throw err;}
+  });
+});
 
 module.exports = router;

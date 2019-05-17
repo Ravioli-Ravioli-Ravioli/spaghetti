@@ -1,0 +1,7 @@
+<h1 class="mt-4">Dashboard</h1>
+<a href="/users/logout" class="btn btn-secondary">Logout</a>
+<ul>
+    <% incomelist.forEach(function(item) { %>
+        <li><%= item.type %> - <%= item.clientName %></li>
+    <% }); %>
+</ul>
