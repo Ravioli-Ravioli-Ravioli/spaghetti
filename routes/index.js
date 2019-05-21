@@ -25,4 +25,20 @@ router.get('/incomepage', function(req, res) {
   });
 });
 
+router.post('/incomepage', (req, res) => {
+  const { query } = req.body;
+  let errors = [];
+  if (!query) {
+    errors.push({ msg: 'Hmm. Nothing in search bar' });
+  } else {
+    Bill.find({agency: query}, function(err, docs) {
+        if (!err){
+            console.log(query);
+            res.render('incomepage', {incomelist : docs});
+        } else {throw err;}
+    });
+  }
+});
+
+
 module.exports = router;

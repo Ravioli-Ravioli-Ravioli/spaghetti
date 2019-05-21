@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const BillSchema = new mongoose.Schema({
   billDate: {
-    type: Date,
+    type: String,
     required: true
   },
   clientName: {
     type: String,
     required: true
   },
-  billNumber: {
+  billNum: {
     type: String,
     required: true
   },
