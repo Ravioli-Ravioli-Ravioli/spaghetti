@@ -1,0 +1,6 @@
+th {
+  display: table-cell;
+  valign: middle;
+  font-weight: normal;
+  text-align: center;
+}
