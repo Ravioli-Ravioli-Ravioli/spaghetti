@@ -29,9 +29,19 @@ router.post('/incomepage', (req, res) => {
   const { query } = req.body;
   let errors = [];
   if (!query) {
-    errors.push({ msg: 'Hmm. Nothing in search bar' });
+    res.redirect('/incomepage');
   } else {
-    Bill.find({agency: query}, function(err, docs) {
+    Bill.find({"$or":[
+        {billDate:{$regex:query, $options: 'i'}},
+        {clientName:{$regex:query, $options: 'i'}},
+        {billNum:{$regex:query, $options: 'i'}},
+        {agency:{$regex:query, $options: 'i'}},
+        {type:{$regex:query, $options: 'i'}},
+        {amount:{$regex:query, $options: 'i'}},
+        {ORNumber:{$regex:query, $options: 'i'}},
+        {collected:{$regex:query, $options: 'i'}},
+        {uncollected:{$regex:query, $options: 'i'}}
+        ]}, function(err, docs) {
         if (!err){
             console.log(query);
             res.render('incomepage', {incomelist : docs});
