@@ -16,7 +16,7 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
   })
 );
 
-router.get('/incomepage', function(req, res) {
+router.get('/incomepage', ensureAuthenticated, function(req, res) {
   Bill.find({}, function(err, docs) {
       if (!err){
           console.log(docs);
@@ -24,6 +24,12 @@ router.get('/incomepage', function(req, res) {
       } else {throw err;}
   });
 });
+
+router.get('/finrep', ensureAuthenticated, (req, res) =>
+  res.render('finrep', {
+    user: req.user
+  })
+);
 
 router.post('/incomepage', (req, res) => {
   const { query } = req.body;
@@ -50,5 +56,43 @@ router.post('/incomepage', (req, res) => {
   }
 });
 
+router.post('/finrep', (req, res) => {
+  const { startyear, startmonth, endyear, endmonth } = req.body;
+  let errors = [];
+    var startyeari = parseInt(startyear, 10)
+    var endyeari = parseInt(endyear, 10)
+    var monthdic = {
+    "Jan": 1,
+    "Feb": 2,
+    "Mar": 3,
+    "Apr": 4,
+    "May": 5,
+    "Jun": 6,
+    "Jul": 7,
+    "Aug": 8,
+    "Sep": 9,
+    "Oct": 10,
+    "Nov": 11,
+    "Dec": 12
+    };
+    var startmonthi = monthdic[startmonth]
+    var endmonthi = monthdic[endmonth]
+
+  if (startyear > endyear) {
+    console.log("Start year should be earlier than end year!")
+    req.flash('error_msg', 'Start year should be earlier than end year!');
+    res.redirect('/finrep');
+  }
+  if (startyear == endyear && startmonthi > endmonthi) {
+    console.log("Start month should be earlier than end month!")
+    req.flash('error_msg', 'Start month should be earlier than end month!');
+    res.redirect('/finrep');
+  } else {
+    console.log("Else")
+//    errors.push({ msg: 'Passwords do not match' });
+    req.flash('success_msg', 'Okey');
+    res.redirect('/finrep');
+  }
+});
 
 module.exports = router;
