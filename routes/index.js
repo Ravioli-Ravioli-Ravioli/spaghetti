@@ -25,7 +25,7 @@ router.get('/incomepage', ensureAuthenticated, function(req, res) {
   });
 });
 
-router.get('/finrep', ensureAuthenticated, (req, res) =>
+router.get('/finrep'/*, ensureAuthenticated*/, (req, res) =>
   res.render('finrep', {
     user: req.user
   })
@@ -79,19 +79,32 @@ router.post('/finrep', (req, res) => {
     var endmonthi = monthdic[endmonth]
 
   if (startyear > endyear) {
-    console.log("Start year should be earlier than end year!")
     req.flash('error_msg', 'Start year should be earlier than end year!');
     res.redirect('/finrep');
   }
   if (startyear == endyear && startmonthi > endmonthi) {
-    console.log("Start month should be earlier than end month!")
     req.flash('error_msg', 'Start month should be earlier than end month!');
     res.redirect('/finrep');
   } else {
-    console.log("Else")
-//    errors.push({ msg: 'Passwords do not match' });
-    req.flash('success_msg', 'Okey');
-    res.redirect('/finrep');
+    var start = startmonth.concat("/XX/",startyear)
+    var end = endmonth.concat("/XX/",endyear)
+    if (startyear == endyear) {
+      ////////////////////////////////////////////// IF SAME YEAR
+      months = [];
+      for (var i = startmonthi; i <= endmonthi; i++){
+        var mth = i.toString()
+        Bill.find({billDate:{$regex:mth*startyear}}, function(err, docs) {
+            if (!err){
+                console.log(docs);
+            } else {throw err;}
+        });
+//        console.log(mth*startyear)
+      }
+      res.redirect('/finrep');
+//////////////////////////////////////////////////// IF NOT SAME YEAR
+    } else {
+      console.log('yes')
+    }
   }
 });
 
