@@ -9,7 +9,7 @@
       rel="stylesheet"
       href="https://bootswatch.com/4/journal/bootstrap.min.css"
     />
-    <title>Node.js & Passport Login App</title>
+    <title>CFB IMS Something</title>
   </head>
   <body>
     <div class="container-fluid"><%- body %></div>
@@ -33,5 +33,24 @@
       crossorigin="anonymous"
     ></script>
     <link href="/css/custom.css" rel="stylesheet" type="text/css">
+    <script>
+    // When the user scrolls the page, execute myFunction
+      window.onscroll = function() {myFunction()};
+
+      // Get the header
+      var header = document.getElementById("myHeader");
+
+      // Get the offset position of the navbar
+      var sticky = header.offsetTop;
+
+      // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+      function myFunction() {
+        if (window.pageYOffset > sticky) {
+          header.classList.add("sticky");
+        } else {
+          header.classList.remove("sticky");
+        }
+      }
+    </script>
   </body>
 </html>
